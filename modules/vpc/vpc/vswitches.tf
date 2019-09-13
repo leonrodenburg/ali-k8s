@@ -13,6 +13,6 @@ resource "alicloud_vswitch" "vswitch" {
   availability_zone = lookup(data.alicloud_zones.zone-data.zones[count.index], "id")
 }
 
-output "vswitch_ids" {
-  value = alicloud_vswitch.vswitch.*.id
+output "vswitches" {
+  value = alicloud_vswitch.vswitch
 }

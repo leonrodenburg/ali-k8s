@@ -27,7 +27,15 @@ module "security-group" {
 module "nat-gateway" {
   source = "./modules/vpc/nat"
 
-  name        = "k8s-nat"
-  vpc_id      = module.vpc.vpc_id
-  vswitch_ids = module.vpc.vswitch_ids
+  name      = "k8s-nat"
+  vpc_id    = module.vpc.vpc_id
+  vswitches = module.vpc.vswitches
+}
+
+module "cluster" {
+  source = "./modules/cs/k8s/managed"
+
+  name      = "k8s-cluster"
+  vswitches = module.vpc.vswitches
+  key_name  = "k8s-cluster-key"
 }

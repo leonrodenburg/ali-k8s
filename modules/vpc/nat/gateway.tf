@@ -1,10 +1,7 @@
 variable "vpc_id" {}
 variable "name" {}
-variable "vswitch_ids" {
-  type = list(string)
-}
+variable "vswitches" {}
 variable "specification" {
-  type    = string
   default = "Small"
 }
 
@@ -25,8 +22,8 @@ resource "alicloud_eip_association" "eip-association" {
 }
 
 resource "alicloud_snat_entry" "snat" {
-  count             = length(var.vswitch_ids)
+  count             = length(var.vswitches)
   snat_table_id     = alicloud_nat_gateway.nat-gateway.snat_table_ids
-  source_vswitch_id = var.vswitch_ids[count.index]
+  source_vswitch_id = var.vswitches[count.index].id
   snat_ip           = alicloud_eip.eip.ip_address
 }
